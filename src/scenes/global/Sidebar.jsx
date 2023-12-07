@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
@@ -17,7 +17,7 @@ import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
+const SubMenuItem = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -35,11 +35,61 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
+const Item = ({ title, to, icon, selected, setSelected, subItems }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  return (
+    <>
+      {subItems ? (
+        <SubMenu title={title}>
+          {subItems.map((subItem) => (
+            <SubMenuItem
+              key={subItem.title}
+              title={subItem.title}
+              to={subItem.to}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          ))}
+        </SubMenu>
+      ) : (
+        <MenuItem
+          active={selected === title}
+          style={{
+            color: colors.grey[100],
+          }}
+          onClick={() => setSelected(title)}
+          icon={icon}
+        >
+          <Typography>{title}</Typography>
+          <Link to={to} />
+        </MenuItem>
+      )}
+    </>
+  );
+};
+
+
+
 const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+
+  const masterSubItems = [
+    { title: "Company Master", to: "/master/company_master" },
+    { title: "AddSubContractor", to: "/master/add_sub_contractor" },
+    { title: "AddPartner", to: "/master/add_partner" },
+    { title: "AreaMaster", to: "/master/area_master" },
+    { title: "TaxMaster", to: "/master/tax_master" },
+    { title: "CategoryMaster", to: "/master/category_master" },
+    { title: "SubCategoryMaster", to: "/master/sub_category_master" },
+    { title: "AddExpenseType", to: "/master/add_expense_type" },
+    { title: "UnitMaster", to: "/master/unit_master" },
+  ];
+
 
   return (
     <Box
@@ -125,13 +175,20 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Data
-            </Typography>
+            </Typography> */}
+            <Item
+              title="Master"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              subItems={masterSubItems}
+            />
             <Item
               title="Manage Team"
               to="/team"
@@ -154,13 +211,13 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Pages
-            </Typography>
+            </Typography> */}
             <Item
               title="Profile Form"
               to="/form"
@@ -183,13 +240,13 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Charts
-            </Typography>
+            </Typography> */}
             <Item
               title="Bar Chart"
               to="/bar"
