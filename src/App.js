@@ -15,6 +15,8 @@ import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
+import CompanyMaster from "./scenes/master/CompanyMaster";
+
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -30,7 +32,7 @@ function App() {
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              {/* <Route path="/master" element={<Master />} /> */}
+              <Route path="/master/CompanyMaster" element={<CompanyMaster />} />
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />

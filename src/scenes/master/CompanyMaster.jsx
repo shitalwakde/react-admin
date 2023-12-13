@@ -3,7 +3,7 @@ import React from "react";
 
 const CompanyMaster = () => {
     return (
-        <div>CompanyMaster</div>
+        <div>Company Master</div>
     )
 }
 
