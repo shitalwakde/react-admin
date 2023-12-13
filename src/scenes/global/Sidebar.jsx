@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+import { useState } from "react";
+import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
@@ -37,130 +37,11 @@ const SubMenuItem = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const Item = ({ title, to, icon, selected, setSelected, subItems }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
-  return (
-    <>
-      {subItems ? (
-        <SubMenu title={title}>
-          {subItems.map((subItem) => (
-            <SubMenuItem
-              key={subItem.title}
-              title={subItem.title}
-              to={subItem.to}
-              icon={icon}
-              selected={selected}
-              setSelected={setSelected}
-            />
-          ))}
-        </SubMenu>
-      ) : (
-        <MenuItem
-          active={selected === title}
-          style={{
-            color: colors.grey[100],
-          }}
-          onClick={() => setSelected(title)}
-          icon={icon}
-        >
-          <Typography>{title}</Typography>
-          <Link to={to} />
-        </MenuItem>
-      )}
-    </>
-  );
-};
-
-
-
 const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-
-  const masterSubItems = [
-    { title: "Company Master", to: "/master/CompanyMaster" },
-    { title: "Add Sub Contractor", to: "/master/AddSubContractor" },
-    { title: "Add Partner", to: "/master/AddPartner" },
-    { title: "Area Master", to: "/master/AreaMaster" },
-    { title: "Tax Master", to: "/master/TaxMaster" },
-    { title: "Category Master", to: "/master/CategoryMaster" },
-    { title: "Sub Category Master", to: "/master/SubCategoryMaster" },
-    { title: "Add Expense Type", to: "/master/AddExpenseType" },
-    { title: "Unit Master", to: "/master/UnitMaster" },
-  ];
-
-  const securityDepositeSubItems = [
-    { title: "Order Copy", to: "/security_deposite/OrderCopy" },
-    {
-      title: "Order Copy Details",
-      to: "/security_deposite/OrderCopyDetails",
-    },
-    {
-      title: "Order Copy Reminder",
-      to: "/security_deposite/OrderCopyReminder",
-    },
-  ];
-
-
-  const supplierSubItems = [
-    { title: "Add New Vendor", to: "/supplier/AddNewVendor" },
-    { title: "Vendor Detail List", to: "/supplier/VendorDetailList" },
-    { title: "Add Purchase Order", to: "/supplier/AddPurchaseOrder" },
-    { title: "Purchase Order Details", to: "/supplier/PurchaseOrderDetails" },
-    { title: "Add Purchase Payment", to: "/supplier/AddPurchasePayment" },
-    { title: "Purchase Payment Detail", to: "/supplier/PurchasePaymentDetail" },
-    { title: "Vendor Ledger Details", to: "/supplier/VendorLedgerDetails" },    
-  ];
-
-
-  const paymentSubItems = [
-    { title: "Personal Payment Detail", to: "/payment/PersonalPaymentDetail" },
-    { title: "TDS Payment Detail", to: "/payment/TDSPaymentDetail" },
-  ];
-
-
-  const myProjectSubItems = [
-    { title: "Project Category", to: "/my_project/ProjectCategory" },
-    { title: "Add New Project", to: "/my_project/AddNewProject" },
-    { title: "Project Detail", to: "/my_project/ProjectDetail" },
-    { title: "Project Completion", to: "/my_project/ProjectCompletion" },
-    { title: "Project Completed Detail", to: "/my_project/ProjectCompletedDetail" },
-    { title: "Project Report", to: "/my_project/ProjectReport" },  
-  ];
-
-  const raBillSubItems = [
-    { title: "Add RA Bill", to: "/ra_bill/AddRABill" },
-    { title: "RA Bill Ledger", to: "/ra_bill/RABillLedger" },
-  ];
-
-
-  const clientsSubItems = [
-    { title: "Add New Client", to: "/clients/AddNewClient" },
-    { title: "Client Detail", to: "/clients/ClientDetail" },
-  ];
-
-
-  const saleSubItems = [
-    { title: "Create Sale", to: "/sale/CreateSale" },
-    { title: "Sale Detail", to: "/sale/SaleDetail" },
-  ];
-
-
-  const officeExpensesSubItems = [
-    { title: "Office Expenses", to: "/office_expenses/OfficeExpenses" },
-  ];
-
-
-  const taxInvoiceSubItems = [
-    { title: "Create Invoice", to: "/tax_invoice/CreateInvoice" },
-    { title: "Invoice Detail", to: "/tax_invoice/InvoiceDetail" },
-    { title: "Tax Invoice Detail", to: "/tax_invoice/TaxInvoiceDetail" },    
-  ];
-
 
   return (
     <Box
@@ -252,77 +133,7 @@ const Sidebar = () => {
               sx={{ m: "15px 0 5px 20px" }}
             >
               Data
-            </Typography> */}
-            <Item
-              title="Master"
-              icon={<ScatterPlotSharpIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              subItems={masterSubItems}
-            />
-            <Item
-              title="Security Deposite"
-              icon={<ScatterPlotSharpIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              subItems={securityDepositeSubItems}
-              />
-            <Item
-              title="Supplier"
-              icon={<ScatterPlotSharpIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              subItems={supplierSubItems}
-              />
-              <Item
-              title="Payment"
-              icon={<ScatterPlotSharpIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              subItems={paymentSubItems}
-              />
-              <Item
-              title="My Project"
-              icon={<ScatterPlotSharpIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              subItems={myProjectSubItems}
-              />
-              <Item
-              title="RA Bill"
-              icon={<ScatterPlotSharpIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              subItems={raBillSubItems}
-              />
-              <Item
-              title="Clients"
-              icon={<ScatterPlotSharpIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              subItems={clientsSubItems}
-              />
-              <Item
-              title="Sale"
-              icon={<ScatterPlotSharpIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              subItems={saleSubItems}
-              />
-              <Item
-              title="Office Expenses"
-              icon={<ScatterPlotSharpIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              subItems={officeExpensesSubItems}
-              />
-              <Item
-              title="Tax Invoice"
-              icon={<ScatterPlotSharpIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              subItems={taxInvoiceSubItems}
-              />
+            </Typography>
             <Item
               title="Manage Team"
               to="/team"
