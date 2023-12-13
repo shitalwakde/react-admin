@@ -17,6 +17,9 @@ import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import ScatterPlotSharpIcon from '@mui/icons-material/ScatterPlotSharp';
+import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
+
+
 
 const SubMenuItem = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -161,6 +164,41 @@ const Sidebar = () => {
     { title: "Tax Invoice Detail", to: "/tax_invoice/TaxInvoiceDetail" },    
   ];
 
+
+  const inventorySubItems = [
+    { title: "Add Product", to: "/inventory/AddProduct" },
+    { title: "Product Detail", to: "/inventory/ProductDetail" },
+    { title: "Stock Detail", to: "/inventory/StockDetail" },
+    { title: "Stock Report", to: "/inventory/StockReport" },   
+  ];
+
+  const employeeSubItems = [
+    { title: "Add Product", to: "/employee/EmployeeRegistration" },
+    { title: "Employee Detail", to: "/employee/EmployeeDetail" },
+    { title: "Salary Detail", to: "/employee/SalaryDetail" },    
+  ];
+
+
+  const notificationSubItems = [
+    { title: "Security Deposit Reminder", to: "/notification/SecurityDepositReminder" },
+    { title: "Insurance Reminder", to: "/notification/InsuranceReminder" },
+    { title: "Project Reminder", to: "/notification/ProjectReminder" },
+    { title: "TDS Reminder", to: "/notification/TDSReminder" },   
+  ];
+
+
+  const systemUserSubItems = [
+    { title: "Add New User", to: "/system_user/AddNewUser" },
+    { title: "User Detail", to: "/system_user/UserDetail" },
+  ];
+
+
+  const cashManagementSubItems = [
+    { title: "Company Funds", to: "/cash_management/CompanyFunds" },
+    { title: "Distribute Funds", to: "/cash_management/DistributeFunds" },
+    { title: "Distributed Funds", to: "/cash_management/DistributedFunds" },
+    { title: "Ledger", to: "/cash_management/Ledger" },   
+  ];
 
   return (
     <Box
@@ -323,6 +361,48 @@ const Sidebar = () => {
               setSelected={setSelected}
               subItems={taxInvoiceSubItems}
               />
+              <Item
+              title="Inventory"
+              icon={<ScatterPlotSharpIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              subItems={inventorySubItems}
+              />
+              <Item
+              title="Employee"
+              icon={<ScatterPlotSharpIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              subItems={employeeSubItems}
+              />
+              <Item
+              title="Notification"
+              icon={<ScatterPlotSharpIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              subItems={notificationSubItems}
+              />
+              <Item
+              title="System User"
+              icon={<ScatterPlotSharpIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              subItems={systemUserSubItems}
+              />
+              <Item
+              title="Cash Management"
+              icon={<ScatterPlotSharpIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              subItems={cashManagementSubItems}
+              />
+              <Item
+              title="Logout"
+              to="/team"
+              icon={<LogoutSharpIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
             <Item
               title="Manage Team"
               to="/team"
