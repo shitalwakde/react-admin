@@ -1,0 +1,20 @@
+{
+  "name": "Construction",
+  "version": "1.0.0",
+  "description": "Construction App",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "cross-env NODE_ENV=DEVELOPMENT nodemon app.js",
+    "prod": "cross-env NODE_ENV=PRODUCTION nodemon app.js"
+  },
+  "author": "shital",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
+  }
+}
