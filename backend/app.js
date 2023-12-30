@@ -1,39 +1,37 @@
 import express from 'express';
-import mysql from 'mysql'
+import db from "./config/database.js";
+import companyRoutes from "./routes/company.js";
+import cors from "cors";
+import bodyParser from "body-parser";
+
 
 const app = express();
-const port = 3000;
+const port = 4000;
 
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'construction_db',
-});
+// Synchronize models with the database
+// db.sync({ force: true }) // Use { alter: true } to create tables if they don't exist
+//   .then(() => {
+//     console.log('Tables synchronized successfully');
+//   })
+//   .catch((err) => {
+//     console.error('Error synchronizing tables:', err);
+//   });
 
-db.connect((err) => {
-  if (err) {
+
+// Test the database connection
+db.authenticate()
+  .then(() => {
+    console.log('Connected to MySQL');
+  })
+  .catch((err) => {
     console.error('Error connecting to MySQL:', err);
-    return;
-  }
-  console.log('Connected to MySQL');
-});
-
-app.use(express.json());
-
-app.post('/saveFormData', (req, res) => {
-  const formData = req.body;
-
-  db.query('INSERT INTO company_details SET ?', formData, (err, result) => {
-    if (err) {
-      console.error('Error saving form data:', err);
-      res.status(500).send('Internal Server Error');
-      return;
-    }
-
-    res.status(200).send('Form data saved successfully');
   });
-});
+
+app.use(cors());
+app.use(express.json());
+app.use(bodyParser.json());
+app.use('/uploads', express.static('uploads'));
+app.use('/companies', companyRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
