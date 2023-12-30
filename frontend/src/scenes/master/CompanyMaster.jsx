@@ -73,6 +73,7 @@ const CompanyMaster = () => {
       if (response.ok) {
         const responseData = await response.json(); // Assuming the response is in JSON format
         setImage(responseData.imageUrl);
+        values.image = responseData.imageUrl;
         console.log("Image set from response data:", image);
         
       } else {
@@ -81,13 +82,13 @@ const CompanyMaster = () => {
     } catch (error) {
       console.error('Error during image upload:', error);
       // Handle other errors
+    } finally {
+      setSubmitting(false);
     }
-    // Reset the form submission status
-    setSubmitting(false);
-
-
+    
 
     try {
+      console.log("req data = "+JSON.stringify(values));
       const company = await fetch('http://localhost:4000/companies/createCompany', {
         method: 'POST',
         headers: {
@@ -104,8 +105,10 @@ const CompanyMaster = () => {
       
     } catch (error){
         console.error("Error while inserting data in database: ", error);
-    }
-  
+      } finally {
+        setSubmitting(false);
+      }
+
 
 
   };
@@ -492,12 +495,14 @@ const CompanyMaster = () => {
 };
 
 const phoneRegExp =
-  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
+  // /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
+
+  /^\d{1,15}$/;
 
 const checkoutSchema = yup.object().shape({
   companyName: yup.string().required("Please enter company name"),
-  // stateid: yup.string().required("Please select state"),
-  // cityid: yup.string().required("Please select city"),
+  stateid: yup.string().required("Please select state"),
+  cityid: yup.string().required("Please select city"),
   cinNo: yup.string().required("Please enter CIN No."),
   gstNo: yup.string().required("Please enter GST No."),
   email: yup.string().email("invalid email").required("Please enter email"),
@@ -506,7 +511,7 @@ const checkoutSchema = yup.object().shape({
     .matches(phoneRegExp, "Phone number is not valid")
     .required("Please enter mobile number"),
   address: yup.string().required("Please enter address"),
-  // avatar: yup.string().required("Please select company logo"),
+  avatar: yup.string().required("Please select company logo"),
 });
 
 const initialValues = {
@@ -518,7 +523,7 @@ const initialValues = {
   address: "",
   cinNo: "",
   gstNo: "",
-  image: null
+  image: ""
 };
 
 export default CompanyMaster;

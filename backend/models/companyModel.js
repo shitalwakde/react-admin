@@ -4,38 +4,51 @@ import db from "../config/database.js";
 const Company = db.define(
   "Company", // Model name
   {
-    name: {
+    companyName: {
       type: DataTypes.STRING,
       allowNull: false,
+      field: 'name', 
     },
-    city_id: {
+    stateid: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      field: 'state_id', 
+    },
+    cityid: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'city_id', 
     },
     address: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      field: 'address', 
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
+      field: 'email', 
     },
-    mobile_no: {
+    phone: {
       type: DataTypes.STRING,
       allowNull: false,
+      field: 'mobile_no', 
     },
-    cin_no: {
+    cinNo: {
       type: DataTypes.STRING,
       allowNull: false,
+      field: 'cin_no', 
     },
-    gst_no: {
+    gstNo: {
       type: DataTypes.STRING,
       allowNull: false,
+      field: 'gst_no', 
     },
     image: {
       type: DataTypes.STRING,
       allowNull: false,
+      field: 'image', 
     },
   },
   {
