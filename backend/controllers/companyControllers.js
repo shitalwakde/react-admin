@@ -1,5 +1,4 @@
 import Company from "../models/companyModel.js";
-import path from "path";
 
 
 export const getAllCompanies = async (req, res) => {

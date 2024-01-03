@@ -26,7 +26,18 @@ import toast from "react-hot-toast";
 
 
 const CompanyMaster = () => {
-  const [formValues, setFormValues] = useState(initialValues);
+ const [initialValues, setInitialValues] = useState({
+  companyName: "",
+  stateid: 0,
+  cityid: 0,
+  email: "",
+  phone: "",
+  address: "",
+  cinNo: "",
+  gstNo: "",
+  image: ""
+});
+  const [companyData, setCompanyData] = useState([]);
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [image, setImage] = useState("");
   const [avatarPreview, setAvatarPreview] = useState(
@@ -41,10 +52,15 @@ const CompanyMaster = () => {
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
 
+  
+
   useEffect(() => {
     GetState(101).then((result) => {
       setStateList(result);
+      fetchData();
     });
+
+
   }, []);
 
 
@@ -85,7 +101,9 @@ const CompanyMaster = () => {
     } finally {
       setSubmitting(false);
     }
-    
+
+
+
 
     try {
       console.log("req data = "+JSON.stringify(values));
@@ -108,11 +126,60 @@ const CompanyMaster = () => {
       } finally {
         setSubmitting(false);
       }
+  
+  
+};
 
 
+const fetchData = async () => {
+  try {
+    const response = await axios
+                .get("http://localhost:4000/companies/getAllCompanies")
+                .then(async response => {
+                  const updateInfo = await modifyContent(response.data);
+                  console.log("updateInfo::"+JSON.stringify(response.data));
+                  setCompanyData(response.data); // Assuming the API returns an array of company data
 
-  };
+                });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
 
+async function modifyContent(data){
+   return Promise.all(data.map(async (item) => {
+    try {
+      item.statename =await  GetStateName(item.stateid);
+      item.cityname =await  GetCityName(item.stateid, item.cityid);      
+    } catch (error) {
+      console.log(error);
+    }
+
+  }));
+}
+
+const GetStateName = async (stateid) => {
+  try {
+    console.log("statename is :" + stateid);
+    const state = await GetState(101);
+    const stateInfo = state.find((e) => e.id === stateid);
+    return stateInfo ? stateInfo.name : "";
+  } catch (error) {
+    console.log(error);
+    return "";
+  }
+};
+
+const GetCityName = async (stateid, cityid) => {
+  try {
+    const city = await GetCity(101, stateid);
+    const cityInfo = city.find((e) => e.id === cityid);
+    return cityInfo ? cityInfo.name : "";
+  } catch (error) {
+    console.log(error);
+    return "";
+  }
+};
 
   
 
@@ -124,18 +191,18 @@ const CompanyMaster = () => {
   const columns = [
     // { field: "id", headerName: "ID" },
     {
-      field: "name",
+      field: "companyName",
       headerName: "Company Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "state",
+      field: "statename",
       headerName: "State",
       flex: 1,
     },
     {
-      field: "city",
+      field: "cityname",
       headerName: "City",
       flex: 1,
     },
@@ -173,7 +240,7 @@ const CompanyMaster = () => {
         <>
           <IconButton
             aria-label="edit"
-            onClick={() => handleEdit(params.row.id)}
+            onClick={() => handleEdit(params.row)}
             style={{ color: "orange" }}
           >
             <EditIcon />
@@ -190,8 +257,17 @@ const CompanyMaster = () => {
     },
   ];
 
-  const handleEdit = (id) => {
-    console.log(`Edit button clicked for row with ID: ${id}`);
+  const handleEdit = (row) => {
+    //initialValues = row;
+    
+  setStateid(row.stateid);
+  GetCity(101, row.stateid).then((result) => {
+    setCityList(result);
+    setCityid(row.cityid);
+  });
+  //setCityid(row.cityid);
+    setInitialValues(row);
+    console.log(`Edit button clicked for row : ${row}`);
   };
 
   const handleDelete = (id) => {
@@ -203,6 +279,7 @@ const CompanyMaster = () => {
       <Header title="Company Info" />
 
       <Formik
+        enableReinitialize = {true}
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
         validationSchema={checkoutSchema}
@@ -456,7 +533,7 @@ const CompanyMaster = () => {
         <Header title="Company Details" />
         <Box
           m="40px 0 0 0"
-          height="75vh"
+          // height="75vh"
           sx={{
             "& .MuiDataGrid-root": {
               border: "none",
@@ -485,7 +562,7 @@ const CompanyMaster = () => {
         >
           <DataGrid
             checkboxSelection
-            rows={mockDataCompany}
+            rows={companyData}
             columns={columns}
           />
         </Box>
@@ -495,14 +572,12 @@ const CompanyMaster = () => {
 };
 
 const phoneRegExp =
-  // /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
-
-  /^\d{1,15}$/;
+  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
   companyName: yup.string().required("Please enter company name"),
-  stateid: yup.string().required("Please select state"),
-  cityid: yup.string().required("Please select city"),
+  // stateid: yup.string().required("Please select state"),
+  // cityid: yup.string().required("Please select city"),
   cinNo: yup.string().required("Please enter CIN No."),
   gstNo: yup.string().required("Please enter GST No."),
   email: yup.string().email("invalid email").required("Please enter email"),
@@ -511,19 +586,8 @@ const checkoutSchema = yup.object().shape({
     .matches(phoneRegExp, "Phone number is not valid")
     .required("Please enter mobile number"),
   address: yup.string().required("Please enter address"),
-  avatar: yup.string().required("Please select company logo"),
+  // avatar: yup.string().required("Please select company logo"),
 });
 
-const initialValues = {
-  companyName: "",
-  stateid: 0,
-  cityid: 0,
-  email: "",
-  phone: "",
-  address: "",
-  cinNo: "",
-  gstNo: "",
-  image: ""
-};
 
 export default CompanyMaster;
