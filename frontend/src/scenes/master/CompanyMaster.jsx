@@ -63,6 +63,18 @@ const CompanyMaster = () => {
 
   }, []);
 
+  const handleSetAvatarPreview = (e) => {
+    //=======setAvatarPreview=========
+    
+  const reader = new FileReader();
+  reader.onload = () => {
+    if (reader.readyState === 2) {
+      setAvatarPreview(reader.result);
+    }
+  };
+  reader.readAsDataURL(e.target.files[0]);
+  //===============================
+  }
 
 
   const handleCancel = () => {
@@ -77,7 +89,7 @@ const CompanyMaster = () => {
     const formData = new FormData();
     formData.append('image', values.image);
     console.log('Image URL:', values.image);
-
+    
 
     try {
       const response = await fetch('http://localhost:4000/companies/upload', {
@@ -150,13 +162,16 @@ async function modifyContent(data){
    return Promise.all(data.map(async (item) => {
     try {
       item.statename =await  GetStateName(item.stateid);
-      item.cityname =await  GetCityName(item.stateid, item.cityid);      
+      item.cityname =await  GetCityName(item.stateid, item.cityid);
     } catch (error) {
       console.log(error);
     }
 
   }));
 }
+
+
+
 
 const GetStateName = async (stateid) => {
   try {
@@ -267,6 +282,7 @@ const GetCityName = async (stateid, cityid) => {
   });
   //setCityid(row.cityid);
     setInitialValues(row);
+    setAvatarPreview(row.image);
     console.log(`Edit button clicked for row : ${row}`);
   };
 
@@ -465,13 +481,14 @@ const GetCityName = async (stateid, cityid) => {
                       </label>
                       <div className="me-3">
                         <figure className="avatar item-rtl">
-                          <image
-                            src={avatarPreview}
+                          <img                        
                             className="rounded-circle"
+                            src={avatarPreview}
                             alt="image"
                           />
                         </figure>
                       </div>
+                      
                       <Box display="flex" mt="10px">
                         <input
                           type="file"
@@ -481,6 +498,7 @@ const GetCityName = async (stateid, cityid) => {
                           accept="images/*"
                           onChange={(e) => {
                             setFieldValue("image", e.target.files[0], false);
+                            handleSetAvatarPreview((e))
                           }}                      
                         />
                       </Box>

@@ -32,7 +32,7 @@ import ReceiptSharpIcon from '@mui/icons-material/ReceiptSharp';
 import Diversity3SharpIcon from '@mui/icons-material/Diversity3Sharp';
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import PersonSharpIcon from '@mui/icons-material/PersonSharp';
-import SavingsSharpIcon from '@mui/icons-material/SavingsSharp';
+
 
 
 
@@ -237,6 +237,7 @@ const Sidebar = () => {
   return (
     <Box
       sx={{
+        height: "150vh",
         "& .pro-sidebar-inner": {
           background: `${colors.primary[400]} !important`,
         },
