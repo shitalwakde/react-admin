@@ -16,26 +16,23 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import ScatterPlotSharpIcon from '@mui/icons-material/ScatterPlotSharp';
-import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
-import ListSharpIcon from '@mui/icons-material/ListSharp';
-import MenuSharpIcon from '@mui/icons-material/MenuSharp';
-import SecuritySharpIcon from '@mui/icons-material/SecuritySharp';
-import Inventory2SharpIcon from '@mui/icons-material/Inventory2Sharp';
-import PaymentsSharpIcon from '@mui/icons-material/PaymentsSharp';
-import FolderOpenSharpIcon from '@mui/icons-material/FolderOpenSharp';
-import TextSnippetSharpIcon from '@mui/icons-material/TextSnippetSharp';
-import ContactPageSharpIcon from '@mui/icons-material/ContactPageSharp';
-import MoneySharpIcon from '@mui/icons-material/MoneySharp';
-import PointOfSaleSharpIcon from '@mui/icons-material/PointOfSaleSharp';
-import ReceiptSharpIcon from '@mui/icons-material/ReceiptSharp';
-import Diversity3SharpIcon from '@mui/icons-material/Diversity3Sharp';
+import ScatterPlotSharpIcon from "@mui/icons-material/ScatterPlotSharp";
+import LogoutSharpIcon from "@mui/icons-material/LogoutSharp";
+import ListSharpIcon from "@mui/icons-material/ListSharp";
+import MenuSharpIcon from "@mui/icons-material/MenuSharp";
+import SecuritySharpIcon from "@mui/icons-material/SecuritySharp";
+import Inventory2SharpIcon from "@mui/icons-material/Inventory2Sharp";
+import PaymentsSharpIcon from "@mui/icons-material/PaymentsSharp";
+import FolderOpenSharpIcon from "@mui/icons-material/FolderOpenSharp";
+import TextSnippetSharpIcon from "@mui/icons-material/TextSnippetSharp";
+import ContactPageSharpIcon from "@mui/icons-material/ContactPageSharp";
+import MoneySharpIcon from "@mui/icons-material/MoneySharp";
+import PointOfSaleSharpIcon from "@mui/icons-material/PointOfSaleSharp";
+import ReceiptSharpIcon from "@mui/icons-material/ReceiptSharp";
+import Diversity3SharpIcon from "@mui/icons-material/Diversity3Sharp";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import PersonSharpIcon from '@mui/icons-material/PersonSharp';
-
-
-
-
+import PersonSharpIcon from "@mui/icons-material/PersonSharp";
+import AlertDialog from "../../components/common/AlertDialog";
 
 
 const SubMenuItem = ({ title, to, icon, selected, setSelected }) => {
@@ -50,7 +47,6 @@ const SubMenuItem = ({ title, to, icon, selected, setSelected }) => {
       onClick={() => setSelected(title)}
       icon={icon}
     >
-      
       <Typography>{title}</Typography>
       <Link to={to} />
     </MenuItem>
@@ -64,11 +60,12 @@ const Item = ({ title, to, icon, selected, setSelected, subItems }) => {
   return (
     <>
       {subItems ? (
-        <SubMenu title={title}
-        icon={icon}
-        style={{
-          color: colors.grey[100],
-        }}
+        <SubMenu
+          title={title}
+          icon={icon}
+          style={{
+            color: colors.grey[100],
+          }}
         >
           {subItems.map((subItem) => (
             <SubMenuItem
@@ -98,25 +95,24 @@ const Item = ({ title, to, icon, selected, setSelected, subItems }) => {
   );
 };
 
-
-
-
 const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  
-
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleLogout = () => {
     // Perform the logout action (clear authentication state, remove tokens, etc.)
-  
     // Redirect to the login page or another destination
     // history.push('/login');
   };
 
-
+  const handleNoLogout = () => {
+    // Perform the logout action (clear authentication state, remove tokens, etc.)
+    // Redirect to the login page or another destination
+    // history.push('/login');
+  };
 
   const masterSubItems = [
     { title: "Company Master", to: "/master/CompanyMaster" },
@@ -142,7 +138,6 @@ const Sidebar = () => {
     },
   ];
 
-
   const supplierSubItems = [
     { title: "Add New Vendor", to: "/supplier/AddNewVendor" },
     { title: "Vendor Detail List", to: "/supplier/VendorDetailList" },
@@ -150,23 +145,24 @@ const Sidebar = () => {
     { title: "Purchase Order Details", to: "/supplier/PurchaseOrderDetails" },
     { title: "Add Purchase Payment", to: "/supplier/AddPurchasePayment" },
     { title: "Purchase Payment Detail", to: "/supplier/PurchasePaymentDetail" },
-    { title: "Vendor Ledger Details", to: "/supplier/VendorLedgerDetails" },    
+    { title: "Vendor Ledger Details", to: "/supplier/VendorLedgerDetails" },
   ];
-
 
   const paymentSubItems = [
     { title: "Personal Payment Detail", to: "/payment/PersonalPaymentDetail" },
     { title: "TDS Payment Detail", to: "/payment/TDSPaymentDetail" },
   ];
 
-
   const myProjectSubItems = [
     { title: "Project Category", to: "/my_project/ProjectCategory" },
     { title: "Add New Project", to: "/my_project/AddNewProject" },
     { title: "Project Detail", to: "/my_project/ProjectDetail" },
     { title: "Project Completion", to: "/my_project/ProjectCompletion" },
-    { title: "Project Completed Detail", to: "/my_project/ProjectCompletedDetail" },
-    { title: "Project Report", to: "/my_project/ProjectReport" },  
+    {
+      title: "Project Completed Detail",
+      to: "/my_project/ProjectCompletedDetail",
+    },
+    { title: "Project Report", to: "/my_project/ProjectReport" },
   ];
 
   const raBillSubItems = [
@@ -174,64 +170,59 @@ const Sidebar = () => {
     { title: "RA Bill Ledger", to: "/ra_bill/RABillLedger" },
   ];
 
-
   const clientsSubItems = [
     { title: "Add New Client", to: "/clients/AddNewClient" },
     { title: "Client Detail", to: "/clients/ClientDetail" },
   ];
-
 
   const saleSubItems = [
     { title: "Create Sale", to: "/sale/CreateSale" },
     { title: "Sale Detail", to: "/sale/SaleDetail" },
   ];
 
-
   const officeExpensesSubItems = [
     { title: "Office Expenses", to: "/office_expenses/OfficeExpenses" },
   ];
 
-
   const taxInvoiceSubItems = [
     { title: "Create Invoice", to: "/tax_invoice/CreateInvoice" },
     { title: "Invoice Detail", to: "/tax_invoice/InvoiceDetail" },
-    { title: "Tax Invoice Detail", to: "/tax_invoice/TaxInvoiceDetail" },    
+    { title: "Tax Invoice Detail", to: "/tax_invoice/TaxInvoiceDetail" },
   ];
-
 
   const inventorySubItems = [
     { title: "Add Product", to: "/inventory/AddProduct" },
     { title: "Product Detail", to: "/inventory/ProductDetail" },
     { title: "Stock Detail", to: "/inventory/StockDetail" },
-    { title: "Stock Report", to: "/inventory/StockReport" },   
+    { title: "Stock Report", to: "/inventory/StockReport" },
   ];
 
   const employeeSubItems = [
     { title: "Add Product", to: "/employee/EmployeeRegistration" },
     { title: "Employee Detail", to: "/employee/EmployeeDetail" },
-    { title: "Salary Detail", to: "/employee/SalaryDetail" },    
+    { title: "Salary Detail", to: "/employee/SalaryDetail" },
   ];
-
 
   const notificationSubItems = [
-    { title: "Security Deposit Reminder", to: "/notification/SecurityDepositReminder" },
+    {
+      title: "Security Deposit Reminder",
+      to: "/notification/SecurityDepositReminder",
+    },
     { title: "Insurance Reminder", to: "/notification/InsuranceReminder" },
     { title: "Project Reminder", to: "/notification/ProjectReminder" },
-    { title: "TDS Reminder", to: "/notification/TDSReminder" },   
+    { title: "TDS Reminder", to: "/notification/TDSReminder" },
   ];
-
 
   const systemUserSubItems = [
     { title: "Add New User", to: "/system_user/AddNewUser" },
     { title: "User Detail", to: "/system_user/UserDetail" },
   ];
 
-
   const cashManagementSubItems = [
     { title: "Company Funds", to: "/cash_management/CompanyFunds" },
     { title: "Distribute Funds", to: "/cash_management/DistributeFunds" },
     { title: "Distributed Funds", to: "/cash_management/DistributedFunds" },
-    { title: "Ledger", to: "/cash_management/Ledger" },   
+    { title: "Ledger", to: "/cash_management/Ledger" },
   ];
 
   return (
@@ -335,113 +326,125 @@ const Sidebar = () => {
             />
             <Item
               title="Security Deposite"
-              icon={<SecuritySharpIcon fontSize="small"/>}
+              icon={<SecuritySharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={securityDepositeSubItems}
-              />
+            />
             <Item
               title="Supplier"
-              icon={<Inventory2SharpIcon fontSize="small"/>}
+              icon={<Inventory2SharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={supplierSubItems}
-              />
-              <Item
+            />
+            <Item
               title="Payment"
-              icon={<PaymentsSharpIcon fontSize="small"/>}
+              icon={<PaymentsSharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={paymentSubItems}
-              />
-              <Item
+            />
+            <Item
               title="My Project"
-              icon={<FolderOpenSharpIcon fontSize="small"/>}
+              icon={<FolderOpenSharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={myProjectSubItems}
-              />
-              <Item
+            />
+            <Item
               title="RA Bill"
-              icon={<TextSnippetSharpIcon fontSize="small"/>}
+              icon={<TextSnippetSharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={raBillSubItems}
-              />
-              <Item
+            />
+            <Item
               title="Clients"
-              icon={<ContactPageSharpIcon fontSize="small"/>}
+              icon={<ContactPageSharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={clientsSubItems}
-              />
-              <Item
+            />
+            <Item
               title="Sale"
-              icon={<PointOfSaleSharpIcon fontSize="small"/>}
+              icon={<PointOfSaleSharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={saleSubItems}
-              />
-              <Item
+            />
+            <Item
               title="Office Expenses"
-              icon={<MoneySharpIcon fontSize="small"/>}
+              icon={<MoneySharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={officeExpensesSubItems}
-              />
-              <Item
+            />
+            <Item
               title="Tax Invoice"
-              icon={<ReceiptSharpIcon fontSize="small"/>}
+              icon={<ReceiptSharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={taxInvoiceSubItems}
-              />
-              <Item
+            />
+            <Item
               title="Inventory"
-              icon={<MenuSharpIcon fontSize="small"/>}
+              icon={<MenuSharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={inventorySubItems}
-              />
-              <Item
+            />
+            <Item
               title="Employee"
-              icon={<Diversity3SharpIcon  fontSize="small"/>}
+              icon={<Diversity3SharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={employeeSubItems}
-              />
-              <Item
+            />
+            <Item
               title="Notification"
-              icon={<NotificationsOutlinedIcon fontSize="small"/>}
+              icon={<NotificationsOutlinedIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={notificationSubItems}
-              />
-              <Item
+            />
+            <Item
               title="System User"
-              icon={<PersonSharpIcon fontSize="small"/>}
+              icon={<PersonSharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={systemUserSubItems}
-              />
-              <Item
+            />
+            <Item
               title="Cash Management"
-              icon={<ScatterPlotSharpIcon fontSize="small"/>}
+              icon={<ScatterPlotSharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
               subItems={cashManagementSubItems}
-              />
-              <Item
+            />
+            <Item
               title="Logout"
-              onClick={() => {
-                handleLogout();
-                setSelected(null); // Clear the selected state if needed
-              }}
-      
-              icon={<LogoutSharpIcon fontSize="small"/>}
+              onClick={() => setShowConfirmation(true)}
+              icon={<LogoutSharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
             />
+
+            {/* Move the AlertDialog outside the ProSidebar */}
+            {showConfirmation && (
+              <AlertDialog
+                open={showConfirmation}
+                onAgree={() => {
+                  handleLogout();
+                  setShowConfirmation(false);
+                  setSelected(null); // Clear the selected state if needed
+                }}
+                onDisagree={() => setShowConfirmation(false)}
+                onClose={() => setShowConfirmation(false)}
+                message="Are you sure you want to logout?"
+              />
+            )}
+
             <Item
               title="Manage Team"
               to="/team"

@@ -59,6 +59,8 @@ export const deleteCompany = async (req, res) => {
         id: req.params.id,
       },
     });
+
+
     res.json({
       message: "Company Deleted",
     });

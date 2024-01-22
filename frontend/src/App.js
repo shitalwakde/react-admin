@@ -16,6 +16,8 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
 import CompanyMaster from "./scenes/master/CompanyMaster";
+import AddSubContractor from "./scenes/master/AddSubContractor";
+import AddPartner from "./scenes/master/AddPartner";
 
 
 function App() {
@@ -23,7 +25,7 @@ function App() {
   const [isSidebar, setIsSidebar] = useState(true);
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
+    // <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
@@ -33,6 +35,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/master/CompanyMaster" element={<CompanyMaster/>}/>
+              <Route path="/master/AddSubContractor" element={<AddSubContractor/>}/>
+              <Route path="/master/AddPartner" element={<AddPartner/>}/>
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />
@@ -47,7 +51,7 @@ function App() {
           </main>
         </div>
       </ThemeProvider>
-    </ColorModeContext.Provider>
+    // </ColorModeContext.Provider>
   );
 }
 

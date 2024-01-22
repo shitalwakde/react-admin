@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import {
   Select,
   MenuItem,
@@ -22,11 +22,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { GetCountries, GetState, GetCity } from "react-country-state-city";
 import toast from "react-hot-toast";
+import { Audio } from "react-loader-spinner";
+import AlertDialog from "../../components/common/AlertDialog";
 
 
-
-const CompanyMaster = () => {
- const [initialValues, setInitialValues] = useState({
+const newLocal = {
   companyName: "",
   stateid: 0,
   cityid: 0,
@@ -35,8 +35,12 @@ const CompanyMaster = () => {
   address: "",
   cinNo: "",
   gstNo: "",
-  image: ""
-});
+  image: "",
+};
+
+const CompanyMaster = () => {
+  const [initialValues, setInitialValues] = useState(newLocal);
+  const [selectedValues, setSelectedValues] = useState({});
   const [companyData, setCompanyData] = useState([]);
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [image, setImage] = useState("");
@@ -51,8 +55,9 @@ const CompanyMaster = () => {
   const [countriesList, setCountriesList] = useState([]);
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
-
-  
+  const [loading, setLoading] = useState(true);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [deleteId, setDeleteId] = useState(0);
 
   useEffect(() => {
     GetState(101).then((result) => {
@@ -60,151 +65,159 @@ const CompanyMaster = () => {
       fetchData();
     });
 
-
+    
   }, []);
 
   const handleSetAvatarPreview = (e) => {
     //=======setAvatarPreview=========
-    
-  const reader = new FileReader();
-  reader.onload = () => {
-    if (reader.readyState === 2) {
-      setAvatarPreview(reader.result);
-    }
-  };
-  reader.readAsDataURL(e.target.files[0]);
-  //===============================
-  }
 
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setAvatarPreview(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+    //===============================
+  };
 
   const handleCancel = () => {
     // Handle cancel button logic
-    console.log("Form canceled");
+    setInitialValues(newLocal);
+    setSelectedValues({});
+    setAvatarPreview("/assets/default_avatar.jpg");
+    setStateid(0);
+    setCityid(0);
+    console.log("Form canceled =>" + newLocal);
   };
-
 
   const handleFormSubmit = async (values, { setSubmitting }) => {
     // Your form submission logic here, including the imageUrl state
-    console.log('Form values:', values);
+    console.log("Form values:", values);
+    // Image Upload
+
     const formData = new FormData();
-    formData.append('image', values.image);
-    console.log('Image URL:', values.image);
-    
+    formData.append("image", values.image);
+    console.log("Image URL:", values.image);
 
     try {
-      const response = await fetch('http://localhost:4000/companies/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      console.log("image response from API: "+response.status);
+      if (values.image && selectedValues.image !== values.image) {
+        const response = await fetch("http://localhost:4000/companies/upload", {
+          method: "POST",
+          body: formData,
+        });
+        console.log("image response from API: " + response.status);
 
-      if (response.ok) {
-        const responseData = await response.json(); // Assuming the response is in JSON format
-        setImage(responseData.imageUrl);
-        values.image = responseData.imageUrl;
-        console.log("Image set from response data:", image);
-        
-      } else {
-        console.error('Failed to upload image');
+        if (response.ok) {
+          const responseData = await response.json(); // Assuming the response is in JSON format
+          setImage(responseData.imageUrl);
+          values.image = responseData.imageUrl;
+          console.log("Image set from response data:", image);
+        } else {
+          console.error("Failed to upload image");
+        }
       }
     } catch (error) {
-      console.error('Error during image upload:', error);
+      console.error("Error during image upload:", error);
       // Handle other errors
     } finally {
       setSubmitting(false);
     }
 
-
-
-
     try {
-      console.log("req data = "+JSON.stringify(values));
-      const company = await fetch('http://localhost:4000/companies/createCompany', {
-        method: 'POST',
+      // Check if companyId is present (for update) or not (for create)
+      const isUpdate = !!values.companyId;
+
+      console.log("company data :=> " + values);
+
+      // Create or Update Company
+      const apiUrl = isUpdate
+        ? `http://localhost:4000/companies/updateCompany/${values.companyId}`
+        : "http://localhost:4000/companies/createCompany";
+
+      const company = await fetch(apiUrl, {
+        method: isUpdate ? "PUT" : "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
       });
-      if (company.ok){
-        toast.success("Data uploaded successfully")
+
+      if (company.ok) {
+        const companyResponseData = await company.json();
+        console.log("Company saved successfully:", companyResponseData);
+        toast.success("Data saved successfully");
+        fetchData();
       } else {
-        toast.error("Failed to save in database")
-        console.error('Failed to save in database');
+        console.error("Failed to save company");
+        toast.error("Failed to save data");
       }
-      
-    } catch (error){
-        console.error("Error while inserting data in database: ", error);
-      } finally {
-        setSubmitting(false);
-      }
-  
-  
-};
-
-
-const fetchData = async () => {
-  try {
-    const response = await axios
-                .get("http://localhost:4000/companies/getAllCompanies")
-                .then(async response => {
-                  const updateInfo = await modifyContent(response.data);
-                  console.log("updateInfo::"+JSON.stringify(response.data));
-                  setCompanyData(response.data); // Assuming the API returns an array of company data
-
-                });
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-};
-
-async function modifyContent(data){
-   return Promise.all(data.map(async (item) => {
-    try {
-      item.statename =await  GetStateName(item.stateid);
-      item.cityname =await  GetCityName(item.stateid, item.cityid);
     } catch (error) {
       console.log(error);
+    } finally {
+      setSubmitting(false);
     }
+  };
 
-  }));
-}
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios
+        .get("http://localhost:4000/companies/getAllCompanies")
+        .then(async (response) => {
+          const updateInfo = await modifyContent(response.data);
+          console.log("updateInfo::" + JSON.stringify(response.data));
+          setCompanyData(response.data); // Assuming the API returns an array of company data
+        });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); // Set loading to false after receiving the response (whether success or error)
+    }
+  };
 
-
-
-
-const GetStateName = async (stateid) => {
-  try {
-    console.log("statename is :" + stateid);
-    const state = await GetState(101);
-    const stateInfo = state.find((e) => e.id === stateid);
-    return stateInfo ? stateInfo.name : "";
-  } catch (error) {
-    console.log(error);
-    return "";
+  async function modifyContent(data) {
+    return Promise.all(
+      data.map(async (item) => {
+        try {
+          item.statename = await GetStateName(item.stateid);
+          item.cityname = await GetCityName(item.stateid, item.cityid);
+        } catch (error) {
+          console.log(error);
+        }
+      })
+    );
   }
-};
 
-const GetCityName = async (stateid, cityid) => {
-  try {
-    const city = await GetCity(101, stateid);
-    const cityInfo = city.find((e) => e.id === cityid);
-    return cityInfo ? cityInfo.name : "";
-  } catch (error) {
-    console.log(error);
-    return "";
-  }
-};
+  const GetStateName = async (stateid) => {
+    try {
+      console.log("statename is :" + stateid);
+      const state = await GetState(101);
+      const stateInfo = state.find((e) => e.id === stateid);
+      return stateInfo ? stateInfo.name : "";
+    } catch (error) {
+      console.log(error);
+      return "";
+    }
+  };
 
-  
-
+  const GetCityName = async (stateid, cityid) => {
+    try {
+      const city = await GetCity(101, stateid);
+      const cityInfo = city.find((e) => e.id === cityid);
+      return cityInfo ? cityInfo.name : "";
+    } catch (error) {
+      console.log(error);
+      return "";
+    }
+  };
 
   //=====================Company Info Detail========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const columns = [
-    // { field: "id", headerName: "ID" },
+    { field: "id", headerName: "ID", flex: 0.5 },
     {
       field: "companyName",
       headerName: "Company Name",
@@ -274,28 +287,76 @@ const GetCityName = async (stateid, cityid) => {
 
   const handleEdit = (row) => {
     //initialValues = row;
-    
-  setStateid(row.stateid);
-  GetCity(101, row.stateid).then((result) => {
-    setCityList(result);
-    setCityid(row.cityid);
-  });
-  //setCityid(row.cityid);
+
+    setStateid(row.stateid);
+    GetCity(101, row.stateid).then((result) => {
+      setCityList(result);
+      setCityid(row.cityid);
+    });
+    //setCityid(row.cityid);
     setInitialValues(row);
+    setSelectedValues(row);
     setAvatarPreview(row.image);
     console.log(`Edit button clicked for row : ${row}`);
+
+    // Assuming your API response includes a 'companyId' field
+    const companyId = row.id;
+    // Add the companyId to form values
+    setInitialValues((prevValues) => ({
+      ...prevValues,
+      companyId,
+    }));
   };
 
   const handleDelete = (id) => {
+    setShowConfirmation(true);
+    setDeleteId(id);
     console.log(`Delete button clicked for row with ID: ${id}`);
+  };
+
+
+  const deleteItem = async () => {
+    try {
+      if (deleteId !== 0) {
+        const company = await fetch(
+          `http://localhost:4000/companies/deleteCompany/${deleteId}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (company.ok) {
+          const companyResponseData = await company.json();
+          console.log("Company deleted successfully:", companyResponseData);
+          toast.success("Data deleted successfully");
+
+          fetchData();
+        } else {
+          // Log the error status and response text
+          console.error(
+            "Failed to delete company:",
+            company.status,
+            company.statusText
+          );
+          toast.error("Failed to delete data");
+        }
+      }
+    } catch (error) {
+      console.error("Error during delete company:", error);
+      // Handle other errors
+      toast.error("Error during delete operation");
+    }
   };
 
   return (
     <Box m="20px">
-      <Header title="Company Info" />
+      <Header title="Add Company" />
 
       <Formik
-        enableReinitialize = {true}
+        enableReinitialize={true}
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
         validationSchema={checkoutSchema}
@@ -481,14 +542,14 @@ const GetCityName = async (stateid, cityid) => {
                       </label>
                       <div className="me-3">
                         <figure className="avatar item-rtl">
-                          <img                        
+                          <img
                             className="rounded-circle"
                             src={avatarPreview}
                             alt="image"
                           />
                         </figure>
                       </div>
-                      
+
                       <Box display="flex" mt="10px">
                         <input
                           type="file"
@@ -498,8 +559,8 @@ const GetCityName = async (stateid, cityid) => {
                           accept="images/*"
                           onChange={(e) => {
                             setFieldValue("image", e.target.files[0], false);
-                            handleSetAvatarPreview((e))
-                          }}                      
+                            handleSetAvatarPreview(e);
+                          }}
                         />
                       </Box>
                     </div>
@@ -542,6 +603,15 @@ const GetCityName = async (stateid, cityid) => {
                   Cancel
                 </Button>
               </Box>
+              {showConfirmation && (
+                <AlertDialog
+                  open={showConfirmation}
+                  onAgree={deleteItem}
+                  onDisagree={() => setShowConfirmation(false)}
+                  onClose={() => setShowConfirmation(false)}
+                  message="Are you sure you want to delete?"
+                />
+              )}
             </form>
           )}
         </FormikConsumer>
@@ -573,16 +643,27 @@ const GetCityName = async (stateid, cityid) => {
               borderTop: "none",
               backgroundColor: colors.blueAccent[700],
             },
-            "& .MuiCheckbox-root": {
-              color: `${colors.greenAccent[200]} !important`,
-            },
+            // "& .MuiCheckbox-root": {
+            //   color: `${colors.greenAccent[200]} !important`,
+            // },
           }}
         >
-          <DataGrid
-            checkboxSelection
-            rows={companyData}
-            columns={columns}
-          />
+          {loading ? (
+            <figure className="avatar item-rtl">
+              <Audio
+                height="40"
+                width="30"
+                radius="9"
+                color="orange"
+                ariaLabel="loading"
+                wrapperStyle
+                wrapperClass
+              />
+            </figure>
+          ) : (
+            // <DataGrid checkboxSelection rows={companyData} columns={columns} />
+            <DataGrid rows={companyData} columns={columns} />
+          )}
         </Box>
       </Box>
     </Box>
@@ -602,6 +683,7 @@ const checkoutSchema = yup.object().shape({
   phone: yup
     .string()
     .matches(phoneRegExp, "Phone number is not valid")
+    .length(10)
     .required("Please enter mobile number"),
   address: yup.string().required("Please enter address"),
   // avatar: yup.string().required("Please select company logo"),

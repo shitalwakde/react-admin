@@ -29,7 +29,7 @@ router.post("/upload", upload.single("image"), handleFileUpload);
 router.get("/getAllCompanies", getAllCompanies);
 router.get("/:id", getCompanyById);
 router.post("/createCompany", upload.none(), createCompany);
-router.patch("/:id", updateCompany);
-router.delete("/:id", deleteCompany);
+router.put("/updateCompany/:id", updateCompany);
+router.delete("/deleteCompany/:id", deleteCompany);
 
 export default router;

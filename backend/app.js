@@ -2,7 +2,6 @@ import express from 'express';
 import db from "./config/database.js";
 import companyRoutes from "./routes/company.js";
 import cors from "cors";
-import bodyParser from "body-parser";
 
 
 const app = express();
@@ -29,7 +28,7 @@ db.authenticate()
 
 app.use(cors());
 app.use(express.json());
-// app.use(bodyParser.json());
+
 app.use('/uploads', express.static('uploads'));
 app.use('/companies', companyRoutes);
 
