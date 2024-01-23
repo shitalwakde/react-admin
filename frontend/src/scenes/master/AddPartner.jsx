@@ -26,7 +26,7 @@ import AlertDialog from "../../components/common/AlertDialog";
 
 
 const AddPartner = () => {
-    const isNonMobile = useMediaQuery("(min-width:600px)");
+  const isNonMobile = useMediaQuery("(min-width:600px)");
   const [loading, setLoading] = useState(true);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -49,59 +49,28 @@ const AddPartner = () => {
   const colors = tokens(theme.palette.mode);
 
   const columns = [
-    { field: "subContractorId", headerName: "Sub Contractor Id", flex: 0.5 },
+    { field: "id", headerName: "Id", flex: 0.5 },
+    { 
+      field: "partnerId",
+      headerName: "Partner Code",
+      flex: 1 
+    },
     {
       field: "name",
-      headerName: "Name",
+      headerName: "Parner Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "dob",
-      headerName: "DOB",
+      field: "status",
+      headerName: "Status",
       flex: 1,
     },
     {
-      field: "address",
-      headerName: "Address",
-      flex: 1,
-    },
-    {
-      field: "accountNo",
-      headerName: "Account No",
-      flex: 1,
-    },
-    {
-      field: "branchName",
-      headerName: "Branch Name",
-      flex: 1,
-    },
-    {
-      field: "ifscCode",
-      headerName: "IFSC Code",
-      flex: 1,
-    },
-
-    {
-      field: "mobile",
-      headerName: "Mobile",
-      flex: 1,
-    },
-    {
-        field: "alternateMobile",
-        headerName: "Alternate Contact",
+        field: "creationDate",
+        headerName: "Creation Date",
         flex: 1,
-      },
-    {
-      field: "pan",
-      headerName: "PAN",
-      flex: 1,
     },
-    {
-        field: "status",
-        headerName: "Status",
-        flex: 1,
-      },
     {
       headerName: "Actions",
       field: "actions",
@@ -127,9 +96,8 @@ const AddPartner = () => {
     },
   ];
 
-
-    return (
-        <Box m="20px">
+  return (
+    <Box m="20px">
       <Header title="Add Partner" />
 
       <Formik
@@ -145,7 +113,6 @@ const AddPartner = () => {
             handleBlur,
             handleChange,
             handleSubmit,
-            setFieldValue,
           }) => (
             <form onSubmit={handleSubmit}>
               <Box
@@ -160,12 +127,13 @@ const AddPartner = () => {
                   fullWidth
                   variant="filled"
                   type="text"
-                  label="Contractor Code"
+                  label="Partner Code"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.contractorCode}
-                  name="contractorCode"
-                  InputProps={{ readOnly: true }} // Set readOnly to true
+                  value={values.partnerCode}
+                  name="partnerCode"
+                  error={!!touched.partnerCode && !!errors.partnerCode}
+                  helperText={touched.partnerCode && errors.partnerCode}
                   sx={{ gridColumn: "span 2" }}
                 />
 
@@ -199,11 +167,13 @@ const AddPartner = () => {
                   fullWidth
                   variant="filled"
                   type="text"
-                  label="Alternate Mobile Number"
+                  label="City"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.alternateMobile}
-                  name="alternateMobile"
+                  value={values.city}
+                  name="city"
+                  error={!!touched.city && !!errors.city}
+                  helperText={touched.city && errors.city}
                   sx={{ gridColumn: "span 2" }}
                 />
 
@@ -263,13 +233,13 @@ const AddPartner = () => {
                   fullWidth
                   variant="filled"
                   type="text"
-                  label="PAN No"
+                  label="GST No"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.panNo}
-                  name="panNo"
-                  error={!!touched.panNo && !!errors.panNo}
-                  helperText={touched.panNo && errors.panNo}
+                  value={values.gstNo}
+                  name="gstNo"
+                  error={!!touched.gstNo && !!errors.gstNo}
+                  helperText={touched.gstNo && errors.gstNo}
                   sx={{ gridColumn: "span 2" }}
                 />
                 <FormControl
@@ -398,7 +368,7 @@ const AddPartner = () => {
         </Box>
       </Box>
     </Box>
-    );
+  );
 };
 
 
@@ -412,25 +382,24 @@ const checkoutSchema = yup.object().shape({
     .matches(phoneRegExp, "Phone number is not valid")
     .required("required"),
   address: yup.string().required("required"),
+  city: yup.string().required("required"),
   branch: yup.string().required("required"),
   ifscCode: yup.string().required("required"),
   accountNumber: yup.string().required("required"),
-  panNo: yup.string().required("required"),
+  gstNo: yup.string().required("required"),
   status: yup.string().required("required"),
 });
 const initialValues = {
-  contractorCode: "",
+  partnerCode: "",
   fullName: "",
   mobile: "",
-  alternateMobile: "",
+  city: "",
   address: "",
-  dob: "",
   branch: "",
   ifscCode: "",
   accountNumber: "",
-  panNo: "",
+  gstNo: "",
   status: "",
-  startDate: new Date(),
 };
 
 export default AddPartner;

@@ -18,6 +18,13 @@ import Calendar from "./scenes/calendar/calendar";
 import CompanyMaster from "./scenes/master/CompanyMaster";
 import AddSubContractor from "./scenes/master/AddSubContractor";
 import AddPartner from "./scenes/master/AddPartner";
+import AreaMaster from "./scenes/master/AreaMaster";
+import TaxMaster from "./scenes/master/TaxMaster";
+import CategoryMaster from "./scenes/master/CategoryMaster";
+import SubCategoryMaster from "./scenes/master/SubCategoryMaster";
+import AddExpenseType from "./scenes/master/AddExpenseType";
+import UnitMaster from "./scenes/master/UnitMaster";
+
 
 
 function App() {
@@ -37,6 +44,12 @@ function App() {
               <Route path="/master/CompanyMaster" element={<CompanyMaster/>}/>
               <Route path="/master/AddSubContractor" element={<AddSubContractor/>}/>
               <Route path="/master/AddPartner" element={<AddPartner/>}/>
+              <Route path="/master/AreaMaster" element={<AreaMaster/>}/>
+              <Route path="/master/TaxMaster" element={<TaxMaster/>}/>
+              <Route path="/master/CategoryMaster" element={<CategoryMaster/>}/>
+              <Route path="/master/SubCategoryMaster" element={<SubCategoryMaster/>}/>
+              <Route path="/master/AddExpenseType" element={<AddExpenseType/>}/>
+              <Route path="/master/UnitMaster" element={<UnitMaster/>}/>
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />

@@ -301,13 +301,13 @@ const AddSubContractor = () => {
                   fullWidth
                   variant="filled"
                   type="text"
-                  label="DOB"
+                  label="DOB (dd-mm-yyyy)"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.dob}
                   name="dob"
                   InputProps={{
-                    readOnly: true,
+                    // readOnly: true,
                     endAdornment: (
                       <InputAdornment
                         position="end"
