@@ -27,6 +27,8 @@ import AlertDialog from "../../components/common/AlertDialog";
 import EventIcon from "@mui/icons-material/Event";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
+
 
 const AddSubContractor = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -53,7 +55,7 @@ const AddSubContractor = () => {
   const colors = tokens(theme.palette.mode);
 
   const columns = [
-    { field: "subContractorId", headerName: "Sub Contractor Id", flex: 0.5 },
+    { field: "id", headerName: "Sub Contractor Id", flex: 0.5 },
     {
       field: "name",
       headerName: "Name",
@@ -92,20 +94,20 @@ const AddSubContractor = () => {
       flex: 1,
     },
     {
-        field: "alternateMobile",
-        headerName: "Alternate Contact",
-        flex: 1,
-      },
+      field: "alternateMobile",
+      headerName: "Alternate Contact",
+      flex: 1,
+    },
     {
       field: "pan",
       headerName: "PAN",
       flex: 1,
     },
     {
-        field: "status",
-        headerName: "Status",
-        flex: 1,
-      },
+      field: "status",
+      headerName: "Status",
+      flex: 1,
+    },
     {
       headerName: "Actions",
       field: "actions",
@@ -301,13 +303,13 @@ const AddSubContractor = () => {
                   fullWidth
                   variant="filled"
                   type="text"
-                  label="DOB (dd-mm-yyyy)"
+                  label="DOB (MM-dd-yyyy)"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.dob}
+                  value={values.dob ? format(values.dob, 'MM-dd-yyyy') : ''}
                   name="dob"
                   InputProps={{
-                    // readOnly: true,
+                    readOnly: true,
                     endAdornment: (
                       <InputAdornment
                         position="end"
@@ -321,9 +323,10 @@ const AddSubContractor = () => {
                 />
                 {isDatePickerOpen && (
                   <DatePicker
-                    selected={values.dob}
+                  placeholderText="Select date"
+                  selected={values.dob}
                     onChange={(date) => {
-                      setFieldValue("startDate", date);
+                      setFieldValue("dob", date); // Use "dob" as the field name
                       setDatePickerOpen(false);
                     }}
                     onBlur={() => setDatePickerOpen(false)}
@@ -452,6 +455,7 @@ const checkoutSchema = yup.object().shape({
   panNo: yup.string().required("required"),
   status: yup.string().required("required"),
 });
+
 const initialValues = {
   contractorCode: "",
   fullName: "",
@@ -466,5 +470,7 @@ const initialValues = {
   status: "",
   startDate: new Date(),
 };
+
+
 
 export default AddSubContractor;

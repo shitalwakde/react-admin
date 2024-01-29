@@ -84,7 +84,7 @@ const UnitMaster = () => {
 
   return (
     <Box m="20px">
-      <Header title="Create Expense Type" />
+      <Header title="Create Unit" />
 
       <Formik
         onSubmit={handleFormSubmit}
@@ -173,7 +173,7 @@ const UnitMaster = () => {
         </FormikConsumer>
       </Formik>
       <Box m="20px">
-        <Header title="Category Expense Details" />
+        <Header title="Unit Details" />
         <Box
           m="40px 0 0 0"
           // height="75vh"

@@ -127,14 +127,14 @@ const Sidebar = () => {
   ];
 
   const securityDepositeSubItems = [
-    { title: "Order Copy", to: "/security_deposite/OrderCopy" },
+    { title: "Add Security Deposite", to: "/security_deposite/AddSecurityDeposite" },
     {
-      title: "Order Copy Details",
-      to: "/security_deposite/OrderCopyDetails",
+      title: "Security Deposite Details",
+      to: "/security_deposite/SecurityDepositeDetails",
     },
     {
-      title: "Order Copy Reminder",
-      to: "/security_deposite/OrderCopyReminder",
+      title: "Security Deposite Reminder",
+      to: "/security_deposite/SecurityDepositeReminder",
     },
   ];
 

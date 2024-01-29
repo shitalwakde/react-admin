@@ -24,6 +24,9 @@ import CategoryMaster from "./scenes/master/CategoryMaster";
 import SubCategoryMaster from "./scenes/master/SubCategoryMaster";
 import AddExpenseType from "./scenes/master/AddExpenseType";
 import UnitMaster from "./scenes/master/UnitMaster";
+import AddSecurityDeposite from "./scenes/security_deposite/AddSecurityDeposite";
+import SecurityDepositeDetails from "./scenes/security_deposite/SecurityDepositeDetails";
+import SecurityDepositeReminder from "./scenes/security_deposite/SecurityDepositeReminder";
 
 
 
@@ -50,6 +53,9 @@ function App() {
               <Route path="/master/SubCategoryMaster" element={<SubCategoryMaster/>}/>
               <Route path="/master/AddExpenseType" element={<AddExpenseType/>}/>
               <Route path="/master/UnitMaster" element={<UnitMaster/>}/>
+              <Route path="/security_deposite/AddSecurityDeposite" element={<AddSecurityDeposite/>}/>
+              <Route path="/security_deposite/SecurityDepositeDetails" element={<SecurityDepositeDetails/>}/>
+              <Route path="/security_deposite/SecurityDepositeReminder" element={<SecurityDepositeReminder/>}/>
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />
