@@ -89,7 +89,7 @@ const SecurityDepositeReminder = () => {
 
 
     return (
-        <Box m="20px">
+        <Box m="30px">
       <Header title="Security Deposite Reminder"/>
       <Box display="flex" justifyContent="flex-end" mt="30px">
                 <Button

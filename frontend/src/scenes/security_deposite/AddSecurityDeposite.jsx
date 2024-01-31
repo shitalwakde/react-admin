@@ -9,8 +9,6 @@ import {
   TextField,
   InputLabel,
   FormControl,
-  IconButton,
-  useTheme,
   InputAdornment,
 } from "@mui/material";
 import { Formik, FormikConsumer } from "formik";
@@ -23,43 +21,38 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 
-
-
-
 const newLocal = {
   projectName: "",
   securityDeposit: "",
   department: "",
   TDRNo: "",
+  paymentType: "",
+  dateOfDdTdr: "",
+  maturityDate: "",
 };
-
 
 const AddSecurityDeposite = () => {
   const [initialValues, setInitialValues] = useState(newLocal);
   const [selectedValues, setSelectedValues] = useState({});
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [isDatePickerOpen, setDatePickerOpen] = useState(false);
-  const [is2ndDatePickerOpen, set2ndDatePickerOpen] = useState(false);
+  const [isDateOfDdTdrOpen, setDateOfDdTdrOpen] = useState(false);
+  const [isMaturityDateOpen, setMaturityDateOpen] = useState(false);
   const navigate = useNavigate();
-
 
   const handleCancel = () => {
     console.log("Form canceled =>" + initialValues);
   };
 
   const handleViewDetails = () => {
-    navigate('/security_deposite/SecurityDepositeDetails');
+    navigate("/security_deposite/SecurityDepositeDetails");
   };
 
   const handleFormSubmit = (values) => {
     console.log(values);
   };
 
-  const deleteItem = () => {};
-
-
   return (
-    <Box m="20px">
+    <Box m="30px">
       <Header title="Security Deposite" />
 
       <Formik
@@ -79,6 +72,7 @@ const AddSecurityDeposite = () => {
           }) => (
             <form onSubmit={handleSubmit}>
               <Box
+                m="20px"
                 display="grid"
                 gap="30px"
                 gridTemplateColumns="repeat(4, minmax(0, 1fr))"
@@ -112,7 +106,7 @@ const AddSecurityDeposite = () => {
                   helperText={touched.TDRNo && errors.TDRNo}
                   InputProps={{
                     readOnly: true,
-                }}
+                  }}
                   sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
@@ -171,14 +165,18 @@ const AddSecurityDeposite = () => {
                   label="Date Of DD/TDR (MM-dd-yyyy)"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.dateOfDdTdr ? format(values.dateOfDdTdr, "MM-dd-yyyy") : ""}
+                  value={
+                    values.dateOfDdTdr
+                      ? format(values.dateOfDdTdr, "MM-dd-yyyy")
+                      : ""
+                  }
                   name="dateOfDdTdr"
                   InputProps={{
                     readOnly: true,
                     endAdornment: (
                       <InputAdornment
                         position="end"
-                        onClick={() => setDatePickerOpen(true)}
+                        onClick={() => setDateOfDdTdrOpen(true)}
                       >
                         <EventIcon />
                       </InputAdornment>
@@ -186,15 +184,15 @@ const AddSecurityDeposite = () => {
                   }}
                   sx={{ gridColumn: "span 2" }}
                 />
-                {isDatePickerOpen && (
+                {isDateOfDdTdrOpen && (
                   <DatePicker
                     placeholderText="Select date"
                     selected={values.dateOfDdTdr}
                     onChange={(date) => {
                       setFieldValue("dateOfDdTdr", date); // Use "dob" as the field name
-                      setDatePickerOpen(false);
+                      setDateOfDdTdrOpen(false);
                     }}
-                    onBlur={() => setDatePickerOpen(false)}
+                    onBlur={() => setDateOfDdTdrOpen(false)}
                   />
                 )}
                 <TextField
@@ -204,14 +202,18 @@ const AddSecurityDeposite = () => {
                   label="Maturity Date (MM-dd-yyyy)"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.maturityDate ? format(values.maturityDate, "MM-dd-yyyy") : ""}
+                  value={
+                    values.maturityDate
+                      ? format(values.maturityDate, "MM-dd-yyyy")
+                      : ""
+                  }
                   name="maturityDate"
                   InputProps={{
                     readOnly: true,
                     endAdornment: (
                       <InputAdornment
                         position="end"
-                        onClick={() => set2ndDatePickerOpen(true)}
+                        onClick={() => setMaturityDateOpen(true)}
                       >
                         <EventIcon />
                       </InputAdornment>
@@ -219,15 +221,15 @@ const AddSecurityDeposite = () => {
                   }}
                   sx={{ gridColumn: "span 2" }}
                 />
-                {is2ndDatePickerOpen && (
+                {isMaturityDateOpen && (
                   <DatePicker
                     placeholderText="Select date"
                     selected={values.maturityDate}
                     onChange={(date) => {
                       setFieldValue("maturityDate", date); // Use "dob" as the field name
-                      setDatePickerOpen(false);
+                      setMaturityDateOpen(false);
                     }}
-                    onBlur={() => set2ndDatePickerOpen(false)}
+                    onBlur={() => setMaturityDateOpen(false)}
                   />
                 )}
               </Box>
@@ -293,7 +295,6 @@ const AddSecurityDeposite = () => {
     </Box>
   );
 };
-
 
 const checkoutSchema = yup.object().shape({
   projectName: yup.string().required("required"),

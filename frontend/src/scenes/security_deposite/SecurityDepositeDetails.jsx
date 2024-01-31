@@ -24,24 +24,22 @@ import axios from "axios";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-
 const newLocal = {
-    projectName: "",
-  };
+  projectName: "",
+  status: "",
+};
 
 const SecurityDepositeDetails = () => {
-    const [initialValues, setInitialValues] = useState(newLocal);
+  const [initialValues, setInitialValues] = useState(newLocal);
   const [selectedValues, setSelectedValues] = useState({});
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const navigate = useNavigate();
 
-
   const handleEdit = () => {};
 
   const handleDelete = () => {
-    deleteItem()
+    deleteItem();
   };
-
 
   const handleSearch = () => {
     console.log("Form canceled =>" + initialValues);
@@ -52,7 +50,7 @@ const SecurityDepositeDetails = () => {
   const handleExport = () => {};
 
   const handleAddNew = () => {
-    navigate('/security_deposite/AddSecurityDeposite');
+    navigate("/security_deposite/AddSecurityDeposite");
   };
 
   const handleFormSubmit = (values) => {
@@ -64,7 +62,6 @@ const SecurityDepositeDetails = () => {
   //=====================Company Info Detail========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
 
   const columns = [
     { field: "id", headerName: "Sr.No.", flex: 0.5 },
@@ -116,10 +113,10 @@ const SecurityDepositeDetails = () => {
       flex: 1,
     },
     {
-        field: "status",
-        headerName: "Status",
-        flex: 1,
-      },
+      field: "status",
+      headerName: "Status",
+      flex: 1,
+    },
     {
       headerName: "Actions",
       field: "actions",
@@ -145,153 +142,152 @@ const SecurityDepositeDetails = () => {
     },
   ];
 
-
-
   return (
-    <Box m="20px">
+    <Box m="30px">
       <Header title="Security Deposite Details" />
       <Box display="flex" justifyContent="flex-end" mt="30px">
-                <Button
-                  type="submit"
-                  color="bluecolor"
-                  variant="contained"
+        <Button
+          type="submit"
+          color="bluecolor"
+          variant="contained"
+          sx={{
+            mr: 4,
+            fontSize: ".9rem",
+            color: "white",
+            backgroundColor: "blue",
+            paddingLeft: "20px",
+            paddingRight: "20px",
+            paddingTop: "5px",
+            paddingBottom: "5px",
+          }}
+          onClick={handleAddNew}
+        >
+          ADD NEW
+        </Button>
+      </Box>
+      <Box m="20px">
+        <Formik
+          onSubmit={handleFormSubmit}
+          initialValues={initialValues}
+          validationSchema={checkoutSchema}
+        >
+          <FormikConsumer>
+            {({
+              values,
+              errors,
+              touched,
+              handleBlur,
+              handleChange,
+              handleSubmit,
+            }) => (
+              <form onSubmit={handleSubmit}>
+                <Box
+                  display="grid"
+                  gap="30px"
+                  gridTemplateColumns="repeat(4, minmax(0, 1fr))"
                   sx={{
-                    mr: 4,
-                    fontSize: ".9rem",
-                    color: "white",
-                    backgroundColor: "blue",
-                    paddingLeft: "20px",
-                    paddingRight: "20px",
-                    paddingTop: "5px",
-                    paddingBottom: "5px",
+                    "& > div": {
+                      gridColumn: isNonMobile ? undefined : "span 4",
+                    },
                   }}
-                  onClick={handleAddNew}
                 >
-                  ADD NEW
-                </Button>
-                </Box>
-                <Box m="20px">
-                <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={checkoutSchema}
-      >
-        <FormikConsumer>
-          {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-            setFieldValue,
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <Box
-                display="grid"
-                gap="30px"
-                gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                sx={{
-                  "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-                }}
-              >
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="ProjectName"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.projectName}
-                  name="projectName"
-                  error={!!touched.projectName && !!errors.projectName}
-                  helperText={touched.projectName && errors.projectName}
-                  sx={{ gridColumn: "span 2" }}
-                />
-                <FormControl
-                  fullWidth
-                  variant="filled"
-                  sx={{ gridColumn: "span 2" }}
-                >
-                  <InputLabel htmlFor="status">Select Status</InputLabel>
-                  <Select
-                    value={values.status}
-                    onChange={handleChange}
-                    name="status"
+                  <TextField
+                    fullWidth
+                    variant="filled"
+                    type="text"
+                    label="ProjectName"
                     onBlur={handleBlur}
-                    error={!!errors.status}
+                    onChange={handleChange}
+                    value={values.projectName}
+                    name="projectName"
+                    error={!!touched.projectName && !!errors.projectName}
+                    helperText={touched.projectName && errors.projectName}
+                    sx={{ gridColumn: "span 2" }}
+                  />
+                  <FormControl
+                    fullWidth
+                    variant="filled"
+                    sx={{ gridColumn: "span 2" }}
                   >
-                    <MenuItem value="Pending">Pending</MenuItem>
-                    <MenuItem value="Received">Received</MenuItem>
-                  </Select>
-                  {!!errors.status && (
-                    <Box color="red" mt={1} sx={{ fontSize: "0.6rem" }}>
-                      {errors.status}
-                    </Box>
-                  )}
-                </FormControl>
-              </Box>
-              <Box display="flex" justifyContent="flex-end" mt="30px">
-                <Button
-                  type="submit"
-                  color="bluecolor"
-                  variant="contained"
-                  sx={{
-                    mr: 4,
-                    fontSize: ".9rem",
-                    color: "white",
-                    backgroundColor: "red",
-                    paddingLeft: "20px",
-                    paddingRight: "20px",
-                    paddingTop: "5px",
-                    paddingBottom: "5px",
-                  }}
-                  onClick={handleSearch}
-                >
-                  SEARCH
-                </Button>
-                <Button
-                  type="button"
-                  color="redcolor"
-                  variant="contained"
-                  sx={{
-                    fontSize: ".9rem",
-                    color: "white",
-                    backgroundColor: "red",
-                    paddingLeft: "20px",
-                    paddingRight: "20px",
-                    paddingTop: "5px",
-                    paddingBottom: "5px",
-                  }}
-                  onClick={handlePrint}
-                >
-                  PRINT
-                </Button>
-                <Button
-                  type="button"
-                  color="greencolor"
-                  variant="contained"
-                  sx={{
-                    mr: 4,
-                    marginLeft: 4,
-                    fontSize: ".9rem",
-                    color: "white",
-                    backgroundColor: "blue",
-                    paddingLeft: "20px",
-                    paddingRight: "20px",
-                    paddingTop: "5px",
-                    paddingBottom: "5px",
-                  }}
-                  onClick={handleExport}
-                >
-                  EXPORT
-                </Button>
-              </Box>
-            </form>
-          )}
-        </FormikConsumer>
-      </Formik>
+                    <InputLabel htmlFor="status">Select Status</InputLabel>
+                    <Select
+                      value={values.status}
+                      onChange={handleChange}
+                      name="status"
+                      onBlur={handleBlur}
+                      error={!!errors.status}
+                    >
+                      <MenuItem value="Pending">Pending</MenuItem>
+                      <MenuItem value="Received">Received</MenuItem>
+                    </Select>
+                    {!!errors.status && (
+                      <Box color="red" mt={1} sx={{ fontSize: "0.6rem" }}>
+                        {errors.status}
+                      </Box>
+                    )}
+                  </FormControl>
                 </Box>
+                <Box display="flex" justifyContent="flex-end" mt="30px">
+                  <Button
+                    type="submit"
+                    color="bluecolor"
+                    variant="contained"
+                    sx={{
+                      mr: 4,
+                      fontSize: ".9rem",
+                      color: "white",
+                      backgroundColor: "red",
+                      paddingLeft: "20px",
+                      paddingRight: "20px",
+                      paddingTop: "5px",
+                      paddingBottom: "5px",
+                    }}
+                    onClick={handleSearch}
+                  >
+                    SEARCH
+                  </Button>
+                  <Button
+                    type="button"
+                    color="redcolor"
+                    variant="contained"
+                    sx={{
+                      fontSize: ".9rem",
+                      color: "white",
+                      backgroundColor: "red",
+                      paddingLeft: "20px",
+                      paddingRight: "20px",
+                      paddingTop: "5px",
+                      paddingBottom: "5px",
+                    }}
+                    onClick={handlePrint}
+                  >
+                    PRINT
+                  </Button>
+                  <Button
+                    type="button"
+                    color="greencolor"
+                    variant="contained"
+                    sx={{
+                      mr: 4,
+                      marginLeft: 4,
+                      fontSize: ".9rem",
+                      color: "white",
+                      backgroundColor: "blue",
+                      paddingLeft: "20px",
+                      paddingRight: "20px",
+                      paddingTop: "5px",
+                      paddingBottom: "5px",
+                    }}
+                    onClick={handleExport}
+                  >
+                    EXPORT
+                  </Button>
+                </Box>
+              </form>
+            )}
+          </FormikConsumer>
+        </Formik>
+      </Box>
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -328,8 +324,7 @@ const SecurityDepositeDetails = () => {
 };
 
 const checkoutSchema = yup.object().shape({
-    projectName: yup.string().required("required"),
-  });
-
+  projectName: yup.string().required("required"),
+});
 
 export default SecurityDepositeDetails;

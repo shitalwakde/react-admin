@@ -103,7 +103,7 @@ const SubCategoryMaster = () => {
 
 
     return (
-        <Box m="20px">
+        <Box m="30px">
       <Header title="Sub Create Category" />
 
       <Formik
@@ -123,6 +123,7 @@ const SubCategoryMaster = () => {
           }) => (
             <form onSubmit={handleSubmit}>
               <Box
+                m="20px"
                 display="grid"
                 gap="30px"
                 gridTemplateColumns="repeat(4, minmax(0, 1fr))"

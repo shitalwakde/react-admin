@@ -134,7 +134,7 @@ const AddSubContractor = () => {
   ];
 
   return (
-    <Box m="20px">
+    <Box m="30px">
       <Header title="Add Sub Contractor" />
 
       <Formik
@@ -154,6 +154,7 @@ const AddSubContractor = () => {
           }) => (
             <form onSubmit={handleSubmit}>
               <Box
+                m="20px"
                 display="grid"
                 gap="30px"
                 gridTemplateColumns="repeat(4, minmax(0, 1fr))"

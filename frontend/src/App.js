@@ -27,6 +27,11 @@ import UnitMaster from "./scenes/master/UnitMaster";
 import AddSecurityDeposite from "./scenes/security_deposite/AddSecurityDeposite";
 import SecurityDepositeDetails from "./scenes/security_deposite/SecurityDepositeDetails";
 import SecurityDepositeReminder from "./scenes/security_deposite/SecurityDepositeReminder";
+import AddNewVendor from "./scenes/supplier/AddNewVendor";
+import VendorDetailList from "./scenes/supplier/VendorDetailList";
+import VendorLedgerDetails from "./scenes/supplier/VendorLedgerDetails";
+import AddPurchaseOrder from "./scenes/supplier/AddPurchaseOrder";
+import PurchaseOrderDetails from "./scenes/supplier/PurchaseOrderDetails";
 
 
 
@@ -56,6 +61,11 @@ function App() {
               <Route path="/security_deposite/AddSecurityDeposite" element={<AddSecurityDeposite/>}/>
               <Route path="/security_deposite/SecurityDepositeDetails" element={<SecurityDepositeDetails/>}/>
               <Route path="/security_deposite/SecurityDepositeReminder" element={<SecurityDepositeReminder/>}/>
+              <Route path="/supplier/AddNewVendor" element={<AddNewVendor/>}/>
+              <Route path="/supplier/VendorDetailList" element={<VendorDetailList/>}/>
+              <Route path="/supplier/VendorLedgerDetails" element={<VendorLedgerDetails/>}/>
+              <Route path="/supplier/AddPurchaseOrder" element={<AddPurchaseOrder/>}/>
+              <Route path="/supplier/PurchaseOrderDetails" element={<PurchaseOrderDetails/>}/>
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />
