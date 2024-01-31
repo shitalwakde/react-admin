@@ -143,14 +143,14 @@ const Sidebar = () => {
     { title: "Vendor Detail List", to: "/supplier/VendorDetailList" },
     { title: "Add Purchase Order", to: "/supplier/AddPurchaseOrder" },
     { title: "Purchase Order Details", to: "/supplier/PurchaseOrderDetails" },
-    { title: "Add Purchase Payment", to: "/supplier/AddPurchasePayment" },
-    { title: "Purchase Payment Detail", to: "/supplier/PurchasePaymentDetail" },
+    // { title: "Add Purchase Payment", to: "/supplier/AddPurchasePayment" },
+    // { title: "Purchase Payment Detail", to: "/supplier/PurchasePaymentDetail" },
     { title: "Vendor Ledger Details", to: "/supplier/VendorLedgerDetails" },
   ];
 
-  const paymentSubItems = [
-    { title: "Personal Payment Detail", to: "/payment/PersonalPaymentDetail" },
-    { title: "TDS Payment Detail", to: "/payment/TDSPaymentDetail" },
+  const tdsDetailsSubItems = [
+    // { title: "Personal Payment Detail", to: "/tds_details/PersonalPaymentDetail" },
+    { title: "TDS Sheet", to: "/tds_details/TDSSheet" },
   ];
 
   const myProjectSubItems = [
@@ -339,11 +339,11 @@ const Sidebar = () => {
               subItems={supplierSubItems}
             />
             <Item
-              title="Payment"
+              title="TDSDetails"
               icon={<PaymentsSharpIcon fontSize="small" />}
               selected={selected}
               setSelected={setSelected}
-              subItems={paymentSubItems}
+              subItems={tdsDetailsSubItems}
             />
             <Item
               title="My Project"

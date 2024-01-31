@@ -32,6 +32,7 @@ import VendorDetailList from "./scenes/supplier/VendorDetailList";
 import VendorLedgerDetails from "./scenes/supplier/VendorLedgerDetails";
 import AddPurchaseOrder from "./scenes/supplier/AddPurchaseOrder";
 import PurchaseOrderDetails from "./scenes/supplier/PurchaseOrderDetails";
+import TDSSheet from "./scenes/tds_details/TDSSheet";
 
 
 
@@ -66,6 +67,7 @@ function App() {
               <Route path="/supplier/VendorLedgerDetails" element={<VendorLedgerDetails/>}/>
               <Route path="/supplier/AddPurchaseOrder" element={<AddPurchaseOrder/>}/>
               <Route path="/supplier/PurchaseOrderDetails" element={<PurchaseOrderDetails/>}/>
+              <Route path="/tds_details/TDSSheet" element={<TDSSheet/>}/>
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />

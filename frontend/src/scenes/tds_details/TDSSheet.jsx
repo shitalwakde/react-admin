@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
-  IconButton,
   useTheme,
   TextField,
   InputAdornment,
@@ -17,26 +16,22 @@ import Header from "../../components/Header";
 import toast from "react-hot-toast";
 import { Audio } from "react-loader-spinner";
 import axios from "axios";
-import PrintIcon from "@mui/icons-material/Print";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EventIcon from "@mui/icons-material/Event";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
-import { useNavigate } from "react-router-dom";
 
 const newLocal = {
   fromDate: "",
   toDate: "",
 };
 
-const PurchaseOrderDetails = () => {
-  const [initialValues, setInitialValues] = useState(newLocal);
+const TDSSheet = () => {
+    const [initialValues, setInitialValues] = useState(newLocal);
   const [selectedValues, setSelectedValues] = useState({});
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [isFromDatePickerOpen, setFromDatePickerOpen] = useState(false);
   const [isToDatePickerOpen, setToDatePickerOpen] = useState(false);
-  const navigate = useNavigate();
 
   const handleSearch = () => {
     console.log("Form canceled =>" + initialValues);
@@ -46,11 +41,6 @@ const PurchaseOrderDetails = () => {
 
   const handleExport = () => {};
 
-  const handleDelete = () => {};
-
-  const handleAddNew = () => {
-    navigate("/supplier/PurchaseOrderDetails");
-  };
 
   const handleFormSubmit = (values) => {
     console.log(values);
@@ -61,116 +51,55 @@ const PurchaseOrderDetails = () => {
   const colors = tokens(theme.palette.mode);
 
   const columns = [
-    { field: "id", headerName: "Sr.No.", flex: 0.5 },
+    { field: "id", headerName: "ID", flex: 0.5 },
     {
-      field: "invoiceNo",
-      headerName: "Invoice No",
+      field: "subcontractorId",
+      headerName: "Subcontractor ID",
       flex: 1,
     },
     {
-      field: "purchaseType",
-      headerName: "Purchase Type",
+      field: "subcontractorName",
+      headerName: "Subcontractor Name",
       flex: 1,
     },
     {
-      field: "invoiceDate",
-      headerName: "Invoice Date",
+      field: "pan",
+      headerName: "PAN",
       flex: 1,
     },
     {
-      field: "supplierId",
-      headerName: "Supplier ID",
+      field: "taxableAmount",
+      headerName: "Taxable Amount",
       flex: 1,
     },
     {
-      field: "supplierName",
-      headerName: "Supplier Name",
+      field: "chequeAmount",
+      headerName: "Cheque Amount",
       flex: 1,
     },
     {
-      field: "supplierMobileNo",
-      headerName: "Supplier Mobile No",
+      field: "tds",
+      headerName: "TDS[%]",
       flex: 1,
     },
 
     {
-      field: "subTotal",
-      headerName: "SubTotal",
-      flex: 1,
-    },
-    {
-      field: "cgst",
-      headerName: "CGST",
-      flex: 1,
-    },
-    {
-      field: "sgst",
-      headerName: "SGST",
-      flex: 1,
-    },
-    {
-      field: "igst",
-      headerName: "IGST",
-      flex: 1,
-    },
-    {
-      field: "grandTotal",
-      headerName: "Grand Total",
+      field: "tdsAmount",
+      headerName: "TDS Amount",
       flex: 1,
     },
     {
       field: "date",
       headerName: "Date",
       flex: 1,
-    },
-    {
-      headerName: "Actions",
-      field: "actions",
-      sort: "asc",
-      renderCell: (params) => (
-        <>
-          <IconButton
-            aria-label="print"
-            onClick={() => handlePrint(params.row)}
-            style={{ color: "green" }}
-          >
-            <PrintIcon />
-          </IconButton>
-          <IconButton
-            aria-label="delete"
-            onClick={() => handleDelete(params.row.id)}
-            style={{ color: "brown" }}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </>
-      ),
-    },
+    },       
   ];
 
-  return (
-    <Box m="30px">
-      <Header title="Purchase Order Details" />
-      <Box display="flex" justifyContent="flex-end" mt="30px">
-        <Button
-          type="submit"
-          color="bluecolor"
-          variant="contained"
-          sx={{
-            mr: 4,
-            fontSize: ".9rem",
-            color: "white",
-            backgroundColor: "blue",
-            paddingLeft: "20px",
-            paddingRight: "20px",
-            paddingTop: "5px",
-            paddingBottom: "5px",
-          }}
-          onClick={handleAddNew}
-        >
-          ADD NEW
-        </Button>
-      </Box>
+
+
+    return (
+        <Box m="30px">
+      <Header title="TDS Report" />
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -361,7 +290,8 @@ const PurchaseOrderDetails = () => {
         <DataGrid rows={mockDataTeam} columns={columns} />
       </Box>
     </Box>
-  );
+    );
 };
 
-export default PurchaseOrderDetails;
+
+export default TDSSheet;
