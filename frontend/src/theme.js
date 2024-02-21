@@ -162,13 +162,13 @@ export const themeSettings = (mode) => {
               main: colors.greenAccent[500],
             },
             redcolor: {
-              main: colors.redAccent[500],
+              main: colors.redAccent[600],
             },
             bluecolor: {
-              main: colors.blueAccent[500],
+              main: colors.blueAccent[600],
             },
             greencolor: {
-              main: colors.greenAccent[500],
+              main: colors.greenAccent[600],
             },
             neutral: {
               dark: colors.grey[700],

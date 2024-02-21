@@ -33,6 +33,14 @@ import VendorLedgerDetails from "./scenes/supplier/VendorLedgerDetails";
 import AddPurchaseOrder from "./scenes/supplier/AddPurchaseOrder";
 import PurchaseOrderDetails from "./scenes/supplier/PurchaseOrderDetails";
 import TDSSheet from "./scenes/tds_details/TDSSheet";
+import ProjectCategory from "./scenes/my_project/ProjectCategory";
+import AddNewProject from "./scenes/my_project/AddNewProject";
+import ProjectDetail from "./scenes/my_project/ProjectDetail";
+import ProjectCompletionDetails from "./scenes/my_project/ProjectCompletionDetails";
+import ProjectCompletedHistory from "./scenes/my_project/ProjectCompletedHistory";
+import ProjectReport from "./scenes/my_project/ProjectReport";
+import RABillLedger from "./scenes/ra_bill/RABillLedger";
+import AddRABill from "./scenes/ra_bill/AddRABill";
 
 
 
@@ -68,6 +76,14 @@ function App() {
               <Route path="/supplier/AddPurchaseOrder" element={<AddPurchaseOrder/>}/>
               <Route path="/supplier/PurchaseOrderDetails" element={<PurchaseOrderDetails/>}/>
               <Route path="/tds_details/TDSSheet" element={<TDSSheet/>}/>
+              <Route path="/my_project/ProjectCategory" element={<ProjectCategory/>}/>
+              <Route path="/my_project/AddNewProject" element={<AddNewProject/>}/>
+              <Route path="/my_project/ProjectDetail" element={<ProjectDetail/>}/>
+              <Route path="/my_project/ProjectCompletionDetails" element={<ProjectCompletionDetails/>}/>
+              <Route path="/my_project/ProjectCompletedHistory" element={<ProjectCompletedHistory/>}/>
+              <Route path="/my_project/ProjectReport" element={<ProjectReport/>}/>
+              <Route path="/ra_bill/AddRABill" element={<AddRABill/>}/>
+              <Route path="/ra_bill/RABillLedger" element={<RABillLedger/>}/>
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />

@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  TextField,
-  IconButton,
-  useTheme,
-} from "@mui/material";
+import { Box, Button, TextField, IconButton, useTheme } from "@mui/material";
 import { Formik, FormikConsumer } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -19,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+
+
 
 const newLocal = {
   vendorName: "",
@@ -55,11 +51,9 @@ const VendorDetailList = () => {
 
   const deleteItem = () => {};
 
-
   //=====================Company Info Detail========================
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
 
   const columns = [
     { field: "id", headerName: "Sr.No.", flex: 0.5 },
@@ -205,7 +199,7 @@ const VendorDetailList = () => {
       <Header title="Vendor Details" />
       <Box display="flex" justifyContent="flex-end" mt="30px">
         <Button
-          type="submit"
+          type="button"
           color="bluecolor"
           variant="contained"
           sx={{

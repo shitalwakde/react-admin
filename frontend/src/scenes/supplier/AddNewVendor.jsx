@@ -119,6 +119,9 @@ const AddNewVendor = () => {
                   error={!!touched.companyName && !!errors.companyName}
                   helperText={touched.companyName && errors.companyName}
                   sx={{ gridColumn: "span 2" }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                 />
                 <TextField
                   fullWidth
@@ -246,6 +249,9 @@ const AddNewVendor = () => {
                   error={!!touched.openingBal && !!errors.openingBal}
                   helperText={touched.openingBal && errors.openingBal}
                   sx={{ gridColumn: "span 2" }}
+                  InputProps={{
+                    readOnly: true,
+                  }}
                 />
                 <TextField
                   fullWidth
@@ -496,9 +502,22 @@ const AddNewVendor = () => {
 };
 
 const checkoutSchema = yup.object().shape({
-  projectName: yup.string().required("required"),
-  department: yup.string().required("required"),
-  securityDeposit: yup.string().required("required"),
+  pincode: yup.string().required("required"),
+  vendorName: yup.string().required("required"),
+  businessName: yup.string().required("required"),
+  area: yup.string().required("required"),
+  cinNo: yup.string().required("required"),
+  paymentType: yup.string().required("required"),
+  panNo: yup.string().required("required"),
+  accHolderName: yup.string().required("required"),
+  gstNo: yup.string().required("required"),
+  accNumber: yup.string().required("required"),
+  mobileNo: yup.string().required("required"),
+  branchName: yup.string().required("required"),
+  emailId: yup.string().required("required"),
+  IFSCCode: yup.string().required("required"),
+  address: yup.string().required("required"),
+  bankName: yup.string().required("required"),
 });
 
 export default AddNewVendor;

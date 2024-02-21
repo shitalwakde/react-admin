@@ -157,10 +157,10 @@ const Sidebar = () => {
     { title: "Project Category", to: "/my_project/ProjectCategory" },
     { title: "Add New Project", to: "/my_project/AddNewProject" },
     { title: "Project Detail", to: "/my_project/ProjectDetail" },
-    { title: "Project Completion", to: "/my_project/ProjectCompletion" },
+    { title: "Project Completion Details", to: "/my_project/ProjectCompletionDetails" },
     {
-      title: "Project Completed Detail",
-      to: "/my_project/ProjectCompletedDetail",
+      title: "Project Completed History",
+      to: "/my_project/ProjectCompletedHistory",
     },
     { title: "Project Report", to: "/my_project/ProjectReport" },
   ];
